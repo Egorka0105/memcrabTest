@@ -1,0 +1,17 @@
+@import "src/assets/styles/main";
+
+.row {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+  width: fit-content;
+
+  &__sum {
+    @include cell;
+    background-color: $light-green;
+  }
+
+  &__remove {
+    @include cell;
+  }
+}

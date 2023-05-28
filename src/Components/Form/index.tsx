@@ -1,27 +1,34 @@
-import { ChangeEvent, FC, FormEvent, useContext, useState } from 'react';
-import { context } from 'context';
-import { checkInputConditions, FIELD_NAMES, FormRequest, INITIAL_FORM_VALUES } from 'utils';
+import { ChangeEvent, FC, FormEvent, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { checkInputConditions, FIELD_NAMES, ROUTES, storage, STORAGE_KEYS } from 'utils';
+
+interface InitialValues {
+  [key: string]: string | number;
+}
+
+const initialValues: InitialValues = {
+  rows: '', // m
+  columns: '', // n
+  cells: '', // x
+};
 
 export const Form: FC = () => {
-  const [formValues, setFormValues] = useState<FormRequest>(INITIAL_FORM_VALUES);
-  const {
-    contextForm: { setContextFormValues },
-  } = useContext(context);
+  const [formValues, setFormValues] = useState(initialValues);
+  const navigate = useNavigate();
 
-  const handleChange =
-    (fieldName: string) =>
-    (event: ChangeEvent<HTMLInputElement>): void => {
-      const newValue = checkInputConditions(event.target.value);
-      setFormValues((prevValues) => ({
-        ...prevValues,
-        [fieldName]: newValue,
-      }));
-    };
+  const handleChange = (fieldName: string) => (event: ChangeEvent<HTMLInputElement>) => {
+    const newValue = checkInputConditions(event.target.value);
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [fieldName]: newValue,
+    }));
+  };
 
   const handleSubmit = (event: FormEvent): void => {
     event.preventDefault();
-    setContextFormValues(formValues);
-    setFormValues(INITIAL_FORM_VALUES);
+    storage.setItem(STORAGE_KEYS.FORM_VALUES, formValues);
+    setFormValues(initialValues);
+    navigate(ROUTES.TABLE);
   };
 
   return (

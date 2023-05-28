@@ -1,0 +1,8 @@
+@import "src/assets/styles/main";
+
+.cell {
+  @include cell;
+  background-color: $light-blue;
+  width: 50px;
+  cursor: pointer;
+}

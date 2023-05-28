@@ -3,3 +3,13 @@ export interface FormRequest {
   columns: number;
   cells: number;
 }
+
+export type CellId = number | string;
+export type CellValue = number;
+
+export interface ICell {
+  id: CellId;
+  amount: CellValue;
+}
+
+export type TableData = ICell[][];

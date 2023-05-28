@@ -1,3 +1,17 @@
+@import "variables";
 
+@mixin btn_template {
+  padding: 4px;
+  color: $black;
+  border-radius: 8px;
+  max-width: 100px;
+}
 
+@mixin cell {
+  max-width: 50px;
+  width: 100%;
+  padding: 4px;
+  border-radius: 4px;
+  text-align: center;
+}
 

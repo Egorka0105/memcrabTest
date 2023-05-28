@@ -1,0 +1,10 @@
+@import "src/assets/styles/main";
+
+.add_row {
+  @include btn_template;
+  position: fixed;
+  top: 50px;
+  left: 10px;
+  box-shadow: $input-shadow;
+  background-color: $white;
+}

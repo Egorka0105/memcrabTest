@@ -1,0 +1,10 @@
+@import "src/assets/styles/main";
+
+.go_back_btn {
+  @include btn_template;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  box-shadow: $input-shadow;
+  background-color: $white;
+}

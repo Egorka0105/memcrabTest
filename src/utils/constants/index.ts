@@ -9,8 +9,6 @@ export enum FIELD_NAMES {
   CELLS = 'cells',
 }
 
-export const INITIAL_FORM_VALUES = {
-  columns: 0,
-  rows: 0,
-  cells: 0,
-};
+export enum STORAGE_KEYS {
+  FORM_VALUES = 'form-values',
+}
