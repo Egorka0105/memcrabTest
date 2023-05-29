@@ -7,4 +7,9 @@
     @include cell;
     background-color: $light-green;
   }
+
+  &__sum {
+    @include cell;
+    background-color: $red;
+  }
 }

@@ -6,13 +6,17 @@ import styles from './index.module.scss';
 export const TableAverage: FC = () => {
   const { table } = useContext(context);
 
+  const { sumAvg, cellsArrayAvg } = calculateAverage(table);
+
   return (
     <div className={styles.average}>
-      {calculateAverage(table).map((item) => (
+      {cellsArrayAvg.map((item) => (
         <div className={styles.average__cell} key={item.id}>
           {item.amount}
         </div>
       ))}
+
+      <div className={styles.average__sum}>{sumAvg}</div>
     </div>
   );
 };

@@ -1,18 +1,27 @@
 import { nanoid } from 'nanoid';
+import { findSum } from 'utils/helpers/findSum';
 import { ICell } from 'utils/types';
 
-export const calculateAverage = (table: ICell[][]): ICell[] => {
+interface IRes {
+  sumAvg: number;
+  cellsArrayAvg: ICell[];
+}
+
+export const calculateAverage = (table: ICell[][]): IRes => {
+  const res: IRes = {
+    sumAvg: 0,
+    cellsArrayAvg: [],
+  };
+
   // Check if the table is empty
   if (!table.length || !table[0].length) {
-    return [];
+    return res;
   }
 
   // the length of the element array horizontally
   const rowLength = table.length;
   // the length of the element array vertically
   const columnLength = table[0].length;
-
-  const resultArray: ICell[] = [];
 
   for (let columnCount = 0; columnCount < columnLength; columnCount++) {
     // Calculate the sum of each column
@@ -21,11 +30,16 @@ export const calculateAverage = (table: ICell[][]): ICell[] => {
     const average = columnSum / rowLength;
 
     // Push the result with generated id into the resultArray
-    resultArray.push({
+    res.cellsArrayAvg.push({
       id: nanoid(),
       amount: +average.toFixed(0),
     });
   }
 
-  return resultArray;
+  // it`s average of all sum cells
+  // I first find and add the sum of all rows and divide it by the length of the array of average values
+  // and round to 0
+  res.sumAvg = +(table.reduce((sum, row) => sum + findSum(row), 0) / res.cellsArrayAvg.length).toFixed(0);
+
+  return res;
 };
