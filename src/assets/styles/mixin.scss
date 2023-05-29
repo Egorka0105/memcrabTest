@@ -1,5 +1,6 @@
 @import "variables";
 
+// all buttons template
 @mixin btn_template {
   padding: 4px;
   color: $black;
@@ -7,11 +8,19 @@
   max-width: 100px;
 }
 
+// all cells template
 @mixin cell {
-  max-width: 50px;
-  width: 100%;
+  width: 50px;
   padding: 4px;
   border-radius: 4px;
   text-align: center;
+}
+
+// all rows with cells template: rows[]
+@mixin cells_wrapper {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+  width: fit-content;
 }
 

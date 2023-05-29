@@ -1,14 +1,10 @@
 @import "src/assets/styles/main";
 
-.row {
+.average {
   @include cells_wrapper;
 
-  &__sum {
+  &__cell {
     @include cell;
     background-color: $light-green;
-  }
-
-  &__remove {
-    @include cell;
   }
 }

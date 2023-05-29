@@ -10,8 +10,4 @@ export class storage {
     const serializedData = typeof data === 'string' ? data : JSON.stringify(data);
     this.storage.setItem(key, serializedData);
   }
-
-  public static removeItem(key: string): void {
-    this.storage.removeItem(key);
-  }
 }
