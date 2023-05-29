@@ -7,8 +7,13 @@ interface RemoveRow {
 
 export const removeRow: RemoveRow = (setState) => (rowIndex) => {
   setState((prevState) => {
+    // create a copy of the previous state array
     const updatedCells = [...prevState];
+
+    // remove the row at the specified index using splice
     updatedCells.splice(rowIndex, 1);
+
+    // return the updated state array
     return updatedCells;
   });
 };

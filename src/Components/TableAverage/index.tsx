@@ -1,14 +1,13 @@
-import { FC, useContext, useState } from 'react';
+import { FC, useContext, useMemo, useState } from 'react';
 import { context } from 'TableProvider';
-import { calculateAverage } from 'utils/helpers/calculateAverage';
-import { calculatePercent } from 'utils/helpers/calculatePercent';
+import { calculateAverage, calculatePercent } from 'utils/helpers';
 import styles from './index.module.scss';
 
 export const TableAverage: FC = () => {
   const [percent, setPercent] = useState(false);
   const { table } = useContext(context);
 
-  const { sumAvg, cellsArrayAvg } = calculateAverage(table);
+  const { sumAvg, cellsArrayAvg } = useMemo(() => calculateAverage(table), [table]);
 
   return (
     <div className={styles.average}>

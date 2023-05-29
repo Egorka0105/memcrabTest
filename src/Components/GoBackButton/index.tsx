@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { useNavigate } from 'react-router';
-import { ROUTES } from 'utils';
+import { ROUTES } from 'utils/constants';
 import styles from './index.module.scss';
 
 export const GoBackButton: FC = () => {

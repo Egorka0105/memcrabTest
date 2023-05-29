@@ -1,9 +1,18 @@
-import { createContext, Dispatch, FC, ReactNode, SetStateAction, useEffect, useMemo, useState } from 'react';
-import { createTable, FormRequest, ICell, ICellPosition, storage, STORAGE_KEYS } from 'utils';
-import { addRow } from 'utils/helpers/addRow';
-import { findNearestCells } from 'utils/helpers/findNearestCells';
-import { increaseAmount } from 'utils/helpers/increaseAmount/increaseAmount';
-import { removeRow } from 'utils/helpers/removeRow';
+import {
+  createContext,
+  Dispatch,
+  FC,
+  memo,
+  ReactNode,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { STORAGE_KEYS } from 'utils/constants';
+import { addRow, createTable, findNearestCells, increaseAmount, removeRow, storage } from 'utils/helpers';
+import { FormRequest, ICell, ICellPosition } from 'utils/types';
 
 interface TableProviderProps {
   children: ReactNode;
@@ -15,7 +24,7 @@ interface TableContextType {
   removeRow: (index: number) => void;
   increaseAmount: (rowIndex: number, columnIndex: number) => void;
   nearest: ICell[] | null;
-  findNearestCells: (cellPosition: ICellPosition) => void;
+  findNearestCells: (cellPosition: any) => any;
   setNearest: Dispatch<SetStateAction<ICell[] | null>>;
 }
 
@@ -29,7 +38,7 @@ export const context = createContext<TableContextType>({
   setNearest: () => {},
 });
 
-export const TableProvider: FC<TableProviderProps> = ({ children }) => {
+export const TableProvider: FC<TableProviderProps> = memo(({ children }) => {
   const [table, setTable] = useState<ICell[][]>([]);
   const [nearest, setNearest] = useState<ICell[] | null>(null);
 
@@ -38,6 +47,11 @@ export const TableProvider: FC<TableProviderProps> = ({ children }) => {
     setTable(createTable(rows, columns));
   }, []);
 
+  const findNearestCellsHandler = useCallback(
+    (cellPosition: ICellPosition) =>
+      findNearestCells(table, storage.getItem(STORAGE_KEYS.FORM_VALUES), setNearest)(cellPosition),
+    [table, nearest]
+  );
   const contextValues = useMemo(
     () => ({
       table,
@@ -45,12 +59,11 @@ export const TableProvider: FC<TableProviderProps> = ({ children }) => {
       removeRow: (index: number) => removeRow(setTable)(index),
       increaseAmount: (rowIndex: number, columnIndex: number) => increaseAmount(setTable)(rowIndex, columnIndex),
       nearest,
-      findNearestCells: (cellPosition: ICellPosition) =>
-        findNearestCells(table, storage.getItem(STORAGE_KEYS.FORM_VALUES), setNearest)(cellPosition),
+      findNearestCells: findNearestCellsHandler,
       setNearest,
     }),
-    [table, nearest]
+    [table, nearest, addRow, removeRow, increaseAmount, findNearestCells, setNearest]
   );
 
   return <context.Provider value={contextValues}>{children}</context.Provider>;
-};
+});

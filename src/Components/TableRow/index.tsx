@@ -1,12 +1,9 @@
-import { FC, SyntheticEvent, useContext, useState } from 'react';
+import { FC, memo, SyntheticEvent, useCallback, useContext, useState } from 'react';
 import removeRowIcon from 'assets/images/removeRow.svg';
 import { Cell } from 'Components/Cell';
 import { context } from 'TableProvider';
-// import cn from 'classnames';
-// import { nanoid } from 'nanoid';
-import { ICell } from 'utils';
-import { calculatePercent } from 'utils/helpers/calculatePercent';
-import { findSum } from 'utils/helpers/findSum';
+import { calculatePercent, findSum } from 'utils/helpers';
+import { ICell } from 'utils/types';
 import styles from './index.module.scss';
 
 interface TableRowProps {
@@ -14,7 +11,7 @@ interface TableRowProps {
   rowIndex: number;
 }
 
-export const TableRow: FC<TableRowProps> = ({ data, rowIndex }) => {
+export const TableRow: FC<TableRowProps> = memo(({ data, rowIndex }) => {
   const [percent, setPercent] = useState(false);
   const { removeRow, nearest } = useContext(context);
 
@@ -24,6 +21,14 @@ export const TableRow: FC<TableRowProps> = ({ data, rowIndex }) => {
   };
 
   const dataSum: number = findSum(data);
+
+  const handleOnMouseLeave = useCallback(() => {
+    setPercent(false);
+  }, [percent, setPercent]);
+
+  const handleOnMouseEnter = useCallback(() => {
+    setPercent(true);
+  }, [percent, setPercent]);
 
   return (
     <div className={styles.row}>
@@ -39,7 +44,7 @@ export const TableRow: FC<TableRowProps> = ({ data, rowIndex }) => {
         />
       ))}
 
-      <div onMouseLeave={() => setPercent(false)} onMouseEnter={() => setPercent(true)} className={styles.row__sum}>
+      <div onMouseLeave={handleOnMouseLeave} onMouseEnter={handleOnMouseEnter} className={styles.row__sum}>
         {dataSum}
       </div>
 
@@ -48,4 +53,4 @@ export const TableRow: FC<TableRowProps> = ({ data, rowIndex }) => {
       </button>
     </div>
   );
-};
+});

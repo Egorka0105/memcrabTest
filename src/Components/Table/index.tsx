@@ -1,13 +1,13 @@
-import { FC, useContext } from 'react';
+import { FC, memo, useContext } from 'react';
 import { AddRow } from 'Components/AddRow';
 import { TableAverage } from 'Components/TableAverage';
 import { TableRow } from 'Components/TableRow';
 import { nanoid } from 'nanoid';
 import { context } from 'TableProvider';
-import { ICell } from 'utils';
+import { ICell } from 'utils/types';
 import styles from './index.module.scss';
 
-export const Table: FC = () => {
+export const Table: FC = memo(() => {
   const { table } = useContext(context);
 
   return (
@@ -21,4 +21,4 @@ export const Table: FC = () => {
       <TableAverage />
     </div>
   );
-};
+});

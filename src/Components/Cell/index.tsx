@@ -1,4 +1,4 @@
-import { FC, useContext } from 'react';
+import { FC, memo, useCallback, useContext, useMemo } from 'react';
 import classNames from 'classnames';
 import { context } from 'TableProvider';
 import { ICell } from 'utils';
@@ -13,31 +13,39 @@ interface CellProps {
   isNearest: boolean;
 }
 
-export const Cell: FC<CellProps> = ({ data, rowIndex, columnIndex, percent, percentTrigger, isNearest = false }) => {
-  const { increaseAmount, findNearestCells, setNearest } = useContext(context);
-  const handleClick = () => {
-    increaseAmount(rowIndex, columnIndex);
-  };
+export const Cell: FC<CellProps> = memo(
+  ({ data, rowIndex, columnIndex, percent, percentTrigger, isNearest = false }) => {
+    const { increaseAmount, findNearestCells, setNearest } = useContext(context);
 
-  const onMouseEnter = () => {
-    findNearestCells({ row: rowIndex, column: columnIndex });
-  };
+    const handleClick = useCallback(() => {
+      increaseAmount(rowIndex, columnIndex);
+    }, [increaseAmount, rowIndex, columnIndex]);
 
-  const onMouseLeave = () => {
-    setNearest(null);
-  };
+    const onMouseEnter = useCallback(() => {
+      findNearestCells({ row: rowIndex, column: columnIndex });
+    }, [findNearestCells, rowIndex, columnIndex]);
 
-  return (
-    <div
-      onClick={handleClick}
-      className={classNames(styles.cell, { [styles.nearest]: isNearest })}
-      style={{
+    const onMouseLeave = useCallback(() => {
+      setNearest(null);
+    }, [setNearest]);
+
+    const cellStyle = useMemo(
+      () => ({
         background: percentTrigger ? `linear-gradient(0deg, #FF2475FF ${percent}%, transparent ${percent}%)` : '',
-      }}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
-      {percentTrigger ? `${percent}%` : data.amount}
-    </div>
-  );
-};
+      }),
+      [percentTrigger, percent]
+    );
+
+    return (
+      <div
+        onClick={handleClick}
+        className={classNames(styles.cell, { [styles.nearest]: isNearest })}
+        style={cellStyle}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      >
+        {percentTrigger ? `${percent}%` : data.amount}
+      </div>
+    );
+  }
+);

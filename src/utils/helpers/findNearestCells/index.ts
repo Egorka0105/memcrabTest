@@ -3,7 +3,7 @@ import { FormRequest, ICell, ICellPosition } from 'utils/types';
 
 export const findNearestCells =
   (table: ICell[][], { cells }: FormRequest, setState: Dispatch<SetStateAction<ICell[] | null>>) =>
-  (hoveredCell: ICellPosition): void => {
+  (hoveredCell: ICellPosition): ICell[] | undefined => {
     if (!hoveredCell) {
       return;
     }
