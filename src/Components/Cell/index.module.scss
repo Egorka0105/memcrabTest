@@ -6,4 +6,8 @@
   background-color: $light-blue;
   width: 50px;
   cursor: pointer;
+
+  &.nearest {
+    background-color: $yellow;
+  }
 }

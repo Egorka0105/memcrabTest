@@ -16,7 +16,7 @@ interface TableRowProps {
 
 export const TableRow: FC<TableRowProps> = ({ data, rowIndex }) => {
   const [percent, setPercent] = useState(false);
-  const { removeRow } = useContext(context);
+  const { removeRow, nearest } = useContext(context);
 
   const handleClick = (e: SyntheticEvent<HTMLButtonElement>) => {
     const { name } = e.currentTarget;
@@ -35,6 +35,7 @@ export const TableRow: FC<TableRowProps> = ({ data, rowIndex }) => {
           columnIndex={index}
           percent={calculatePercent(dataSum, item.amount)}
           percentTrigger={percent}
+          isNearest={nearest ? nearest.some((i) => i.amount === item.amount) : false}
         />
       ))}
 

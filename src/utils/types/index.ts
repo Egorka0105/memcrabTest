@@ -13,3 +13,8 @@ export interface ICell {
 }
 
 export type TableData = ICell[][];
+
+export interface ICellPosition {
+  row: number;
+  column: number;
+}
