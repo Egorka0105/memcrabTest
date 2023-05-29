@@ -1,0 +1,37 @@
+@import "src/assets/styles/main";
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  width: 100%;
+  align-items: center;
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    font-weight: 700;
+    font-size: large;
+
+    input {
+      box-shadow: $input-shadow;
+      width: 100px;
+      border-radius: 4px;
+      border: 0;
+      padding: 4px 8px;
+    }
+  }
+
+  .submit {
+    @include btn_template;
+    padding: 8px 24px;
+    font-weight: 700;
+    margin-top: 30px;
+    max-width: fit-content;
+    background-color: $white;
+    box-shadow: $input-shadow;
+  }
+}
