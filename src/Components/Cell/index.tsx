@@ -25,7 +25,7 @@ export const Cell: FC<CellProps> = memo(
       findNearestCells({ row: rowIndex, column: columnIndex });
     }, [findNearestCells, rowIndex, columnIndex]);
 
-    const onMouseLeave = useCallback(() => {
+    const onMouseOut = useCallback(() => {
       setNearest(null);
     }, [setNearest]);
 
@@ -37,12 +37,13 @@ export const Cell: FC<CellProps> = memo(
     );
 
     return (
+      // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
       <div
         onClick={handleClick}
         className={classNames(styles.cell, { [styles.nearest]: isNearest })}
         style={cellStyle}
         onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
+        onMouseOut={onMouseOut}
       >
         {percentTrigger ? `${percent}%` : data.amount}
       </div>

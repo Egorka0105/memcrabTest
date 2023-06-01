@@ -1,5 +1,4 @@
-import { FC, memo, SyntheticEvent, useCallback, useContext, useState } from 'react';
-import removeRowIcon from 'assets/images/removeRow.svg';
+import { FC, memo, SyntheticEvent, useCallback, useContext, useMemo, useState } from 'react';
 import { Cell } from 'Components/Cell';
 import { context } from 'TableProvider';
 import { calculatePercent, findSum } from 'utils/helpers';
@@ -20,7 +19,7 @@ export const TableRow: FC<TableRowProps> = memo(({ data, rowIndex }) => {
     removeRow(+name);
   };
 
-  const dataSum: number = findSum(data);
+  const dataSum: number = useMemo(() => findSum(data), [data]);
 
   const handleOnMouseLeave = useCallback(() => {
     setPercent(false);
@@ -49,7 +48,7 @@ export const TableRow: FC<TableRowProps> = memo(({ data, rowIndex }) => {
       </div>
 
       <button name={`${rowIndex}`} onClick={handleClick} className={styles.row__remove} role="button" type="button">
-        <img src={removeRowIcon} alt="removeRow" height={20} width={20} />
+        Remove
       </button>
     </div>
   );
