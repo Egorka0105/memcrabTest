@@ -2,6 +2,7 @@
 
 .row {
   @include cells_wrapper;
+  width: fit-content;
 
   &__sum {
     @include cell;

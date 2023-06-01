@@ -18,6 +18,7 @@ export const TableRow: FC<TableRowProps> = memo(({ data, rowIndex }) => {
     const { name } = e.currentTarget;
     removeRow(+name);
   };
+  console.log(nearest);
 
   const dataSum: number = useMemo(() => findSum(data), [data]);
 
@@ -39,7 +40,7 @@ export const TableRow: FC<TableRowProps> = memo(({ data, rowIndex }) => {
           columnIndex={index}
           percent={calculatePercent(dataSum, item.amount)}
           percentTrigger={percent}
-          isNearest={nearest ? nearest.some((i) => i.amount === item.amount) : false}
+          isNearest={nearest ? nearest.some((i) => i.id === item.id) : false}
         />
       ))}
 

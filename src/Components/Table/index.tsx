@@ -8,10 +8,14 @@ import { ICell } from 'utils/types';
 import styles from './index.module.scss';
 
 export const Table: FC = memo(() => {
-  const { table } = useContext(context);
+  const { table, setNearest } = useContext(context);
+
+  const handleMouseLeave = () => {
+    setNearest(null);
+  };
 
   return (
-    <div className={styles.table}>
+    <div onMouseLeave={handleMouseLeave} className={styles.table}>
       <AddRow />
 
       {table.map((item: ICell[], index: number) => (
